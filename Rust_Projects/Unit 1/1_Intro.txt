@@ -1,0 +1,74 @@
+- Rust features:
+  - Zero cost abstraction
+  - Error messages
+  - Type inference
+  - Move semantics
+  - Threads without data races
+  - Pattern matching
+  - Guaranteed memory safety
+  - 
+
+- To run program from terminal:
+  - vi filename.rs
+    rustc filename.rs
+    ./filename
+
+- Data Types:
+    - int:
+      - i8, i16, i32, i64, i128: Signed integers with various bit sizes
+      - u8, u16, u32, u64, u128: Unsigned integers with various bit sizes
+      - isize, usize: Platform-dependent signed and unsigned integers
+      - Ex: 
+        let signed_integer: i32 = -42;
+        let unsigned_integer: u64 = 123;
+    - float:
+      - f32, f64
+      - Ex: let float_number: f64 = 3.14;
+    - boolean:
+      -true or false
+      -Ex: let is_rust_cool: bool = true; 
+    - char:
+      - Represents unicode character
+      - Ex: let character: char = 'A';
+    - string:
+      - A growable, UTF-8 encoded string
+      - Ex: let string_text: &str = "Rithvik";
+    - tuple:
+      - A finite ordered list of elements with fixed sizes and can have different data type elements
+      - Ex: let tuple_example: (i32, f64, char) = (10, 3.5, 'X');
+    - array 
+      - Ex: let array: [i32; 3] = [1, 2, 3]
+    - slice:
+      - Ex: let slice_example: &[i32] = &[1, 2, 3, 4, 5];
+
+- Variables: 
+  - A variable is declared using the let keyword followed by the variable name, an optional type annotation, the assignment operator ()'=' and the initial type value
+  - Syntax: let variable_name: Type = initial_value;
+  - Constant:
+    - const NAME: Type = value;
+
+
+- Macro calls are always marked with an exclamation mark
+- Macros look like functions except that their name has a band(!) but instead of generating a function call, 
+  they are expanded into souce code that gets compiled with the rest of the program
+- Keywords: 
+    fn - define function
+    let - declare variable
+    mut - mutable
+    if else - branching conditional statements
+    match - pattern matching
+    while, for - loops and iterations
+    loop - infinite loop
+
+    enumerator - used to define data types
+    use - brings an item into the scope
+    break, continue - exit loop and skip iteration respectively
+    mod - defines module
+    pub - specifies visiblity of an item
+    static - declares static variable
+    const - declares constant variable
+    unsafe - usage of unsafe operations
+    as - typecasting
+    self - references to current module
+    super - references to parent module
+    crate - which package the executable program will be in
