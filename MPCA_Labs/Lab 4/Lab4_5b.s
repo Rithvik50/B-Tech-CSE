@@ -1,0 +1,18 @@
+.data
+RES: .word 0,0,0,0,0,0,0,0,0
+
+.text
+LDR R0,=RES
+MOV R1,#1
+MOV R2,#3
+MOV R6,#4
+MOV R4,#0
+
+loop:
+MLA R7,R2,R4,R4
+MUL R7,R6,R7
+STR R1,[R0,R7]
+ADD R4,R4,#1
+CMP R4,R2
+BNE loop
+SWI 0x11
