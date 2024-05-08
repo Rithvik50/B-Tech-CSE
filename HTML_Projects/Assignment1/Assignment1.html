@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <img src = "pes_logo.png" alt = "PESU Logo" style = "display: block; margin-left: auto; margin-right: auto; width: 150px">
+        <h1 style = "text-align: center">Re-evaluation Form</h1>
+        <style>
+            .table {
+                border: 1px solid black;
+                border-style: groove;
+                border-collapse: collapse;
+            }  
+            th, td {
+                border: 1px solid black;
+            }
+            
+        </style>
+    </head>
+    <body style = "background-color:rgb(255, 242, 188); align-items: center">
+        <form method = "post" action = "save.php" onsubmit = "submitForm(); return false;">
+            <h2>Personal Details:</h2>
+            Name: <input type = "text" name = "Fname"/><br><br>
+            SRN: <input type = "text" name = "SRN"/><br><br>
+            Email: <input type = "text" name = "Email"/><br><br>
+            Gender: <input type = "radio" name = "gen" value = "Male">Male
+                    <input type = "radio" name = "gen" value = "Female">Female
+                    <input type = "radio" name = "gen" value = "N/A">N/A<br><br>
+            Branch: <input type = "text" name = "Branch"/><br><br>
+            Degree: <input type = "text" name = "Degree"/><br><br>
+            <h2>Re-evaluation Details:</h2>
+            <table class = "table" style = "background-color: white">
+                <tr>
+                    <th>Course</th>
+                    <th>Re-evaluate</th>
+                </tr>
+                <tr>
+                    <td>AFLL</td>
+                    <td><input type = "checkbox" name = "eval" value = "Re-eval"></td>
+                </tr>
+                <tr>
+                    <td>SDS</td>
+                    <td><input type = "checkbox" name = "eval" value = "Re-eval"></td>
+                </tr>
+                <tr>
+                    <td>DDCO</td>
+                    <td><input type = "checkbox" name = "eval" value = "Re-eval"></td>
+                </tr>
+                <tr>
+                    <td>WT</td>
+                    <td><input type = "checkbox" name = "eval" value = "Re-eval"></td>
+                </tr>
+                <tr>
+                    <td>DSA</td>
+                    <td><input type = "checkbox" name = "eval" value = "Re-eval"></td>
+                </tr> 
+            </table><br><br>
+            <input type = "reset" value = "Reset">
+            <input type = "submit" value = "Submit">
+            <script>
+                function submitForm() {
+                    alert("Successfully submitted");
+                }
+            </script>
+        </form>
+    </body>
+</html>
