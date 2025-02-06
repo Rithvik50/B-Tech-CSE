@@ -1,0 +1,7 @@
+.venv/
+locust/
+Dockerfile
+.dockerignore
+.git
+.gitignore
+.env

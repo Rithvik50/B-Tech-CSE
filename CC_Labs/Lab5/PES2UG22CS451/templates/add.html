@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Add Note</h2>
+    <form method="post" action="/add" class="mb-4">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="title" id="title" class="form-control" placeholder="Enter your note title" required>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Content</label>
+            <textarea name="content" id="content" class="form-control" placeholder="Enter the content of your note" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Add Note</button>
+    </form>
+{% endblock %}
+

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2 class="my-4">All Notes</h2>
+    <a href="/add" class="btn btn-primary mb-4">Add New Note</a>
+    <div class="row">
+        {% for note in notes %}
+            <div class="col-md-4">
+                <div class="note-card">
+                    <h5>{{ note.title }}</h5>
+                    <p>{{ note.content | truncate(20) }}</p>
+                    <div class="d-flex justify-content-between">
+                        <form action="/edit/{{ note.id }}" method="get">
+                            <button type="submit" class="btn btn-warning btn-sm">Edit</button>
+                        </form>
+                        <form action="/delete/{{ note.id }}" method="post">
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
