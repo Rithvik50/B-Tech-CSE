@@ -33,7 +33,7 @@ void insert_into_table(arguments);	//arguments can vary based on implementation
 void insert_value_to_name(name,value,type);	
 //inserts values into the table when a variable is initialised
 
-void check_symbol_table(name);
+int check_symbol_table(name);
 //checks symbol table whether the variable has been declared or not
 
 void display_symbol_table();			//displays symbol table

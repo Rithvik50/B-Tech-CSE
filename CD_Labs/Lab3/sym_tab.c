@@ -56,7 +56,7 @@ void insert_into_table(char* name, int size, int type, int lineno, int scope)
     curr -> next = s;
 }
 
-void check_symbol_table(name) //return a value like integer for checking
+int check_symbol_table(char* name) //return a value like integer for checking
 {
     /*
         check if table is empty and return a value like 0
@@ -67,10 +67,17 @@ void check_symbol_table(name) //return a value like integer for checking
     if (t->head == NULL) {
         return 0;
     }
-    symbol* curr = t -> head;
+    symbol* curr = t->head;
+    while (curr != NULL) {
+        if (strcmp(curr->name, name) == 0) {
+            return 1;
+        }
+        curr = curr->next;
+    }
+    return 0;
 }
 
-void insert_value_to_name(name,value)
+void insert_value_to_name(char* name, char* value)
 {
     /*
         if value is default value return back
