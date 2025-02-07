@@ -1,8 +1,10 @@
 %{
-    #define YYSTYPE char*
-    #include "y.tab.h"
-    #include <stdio.h>
-    extern void yyerror(const char *); // declare the error handling function
+	#define YYSTYPE char*
+	#include "y.tab.h"
+	#include <stdio.h>
+	#include <string.h>
+	#include <stdlib.h>
+	extern void yyerror(const char *); // declare the error handling function
    
 %}
 
@@ -34,20 +36,20 @@ number	{digits}{opFraction}{opExponent}
 "!="		{return T_NOTEQUAL;}
 ">="        	{return T_GREATEREQ;}
 "<="        	{return T_LESSEREQ;}
-"("		{return *yytext;}
-")"		{return *yytext;}
-"."         	{return *yytext;}
-","         	{return *yytext;}
-"{"         	{return *yytext;}
-"}"         	{return *yytext;}
-"*"         	{return *yytext;}
-"+"         	{return *yytext;}
-";"         	{return *yytext;}
-"-"         	{return *yytext;}
-"/"         	{return *yytext;}
-"="         	{return *yytext;}
-">"         	{return *yytext;}
-"<"         	{return *yytext;}
+"("		{return '(';}
+")"		{return ')';}
+"."         	{return '.';}
+","         	{return ',';}
+"{"         	{return '{';}
+"}"         	{return '}';}
+"*"         	{return '*';}
+"+"         	{return '+';}
+";"         	{return ';';}
+"-"         	{return '-';}
+"/"         	{return '/';}
+"="         	{return '=';}
+">"         	{return '>';}
+"<"         	{return '<';}
 {number}	{
 			yylval=strdup(yytext);  //stores the value of the number to be used later for symbol table insertion
 			return T_NUM;
@@ -60,6 +62,6 @@ number	{digits}{opFraction}{opExponent}
 .		{} // anything else => ignore
 %%
 
-int yywrap() {
-    return 1;
+int yywrap(){
+	return 1;
 }

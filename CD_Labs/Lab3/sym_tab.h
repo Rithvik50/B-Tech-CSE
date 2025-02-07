@@ -3,37 +3,29 @@
 #define FLOAT 3
 #define DOUBLE 4
 
-typedef struct symbol		//data structure of items in the list
-{
-	char* name;			//identifier name
-	int size;			//storage size of identifier name
-	int type;			//identifier type
-	char* val;			//value of the identifier
-	int line;			//declared line number
-	int scope;			//scope of the variable
-	struct symbol* next;
-}symbol;
+typedef struct symbol {
+    char* name;   // Identifier name
+    int size;     // Storage size of identifier name
+    int type;     // Identifier type
+    char* val;    // Value of the identifier
+    int line;     // Declared line number
+    int scope;    // Scope of the variable
+    int value; 
+    struct symbol* next;
+} symbol;
 
-typedef struct table		//keeps track of the start of the list
-{
-	symbol* head;
-}table;
+typedef struct table {
+    symbol* head;
+} table;
 
-static table* t;
+table* init_table(); // Allocate space for a new symbol table
 
-table* init_table();	//allocate space for start of table
-// thus making a new symbol table
+symbol* init_symbol(char* name, int size, int type, int lineno, int scope);  // Creates a new symbol entry
 
-symbol* init_symbol(char* name, int size, int type, int lineno, int scope);		
-//allocates space for items in the list and initialisation
+void insert_into_table(char* name, int size, int type, int lineno, int scope); // Inserts a new symbol into the table
 
-void insert_into_table(char* name, int size, int type, int lineno, int scope);	//arguments can vary based on implementation
-//inserts symbols into the table when declared
+int check_symbol_table(char* name); // Checks if a variable exists in the symbol table
 
-void insert_value_to_name(char* name, char* value, int type);	
-//inserts values into the table when a variable is initialised
+void insert_value_to_name(char* name, char* value); // Assigns a value to a variable in the symbol table
 
-int check_symbol_table(char* name);
-//checks symbol table whether the variable has been declared or not
-
-void display_symbol_table();			//displays symbol table
+void display_symbol_table(); // Displays the symbol table
