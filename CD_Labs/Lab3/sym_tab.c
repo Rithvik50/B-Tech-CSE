@@ -34,7 +34,7 @@ symbol* init_symbol(char* name, int size, int type, int lineno, int scope) //all
     return s;
 }
 
-insert_into_table(char* name, int size, int type, int lineno, int scope)
+void insert_into_table(char* name, int size, int type, int lineno, int scope)
 /* 
     arguments can be the structure s_name already allocated before this function call
     or the variables to be sent to allocate_space_for_table_entry for initialisation        
@@ -56,7 +56,7 @@ insert_into_table(char* name, int size, int type, int lineno, int scope)
     curr -> next = s;
 }
 
-check_symbol_table(name) //return a value like integer for checking
+void check_symbol_table(name) //return a value like integer for checking
 {
     /*
         check if table is empty and return a value like 0
@@ -70,7 +70,7 @@ check_symbol_table(name) //return a value like integer for checking
     symbol* curr = t -> head;
 }
 
-insert_value_to_name(name,value)
+void insert_value_to_name(name,value)
 {
     /*
         if value is default value return back
@@ -94,7 +94,7 @@ insert_value_to_name(name,value)
     }
 }
 
-display_symbol_table()
+void display_symbol_table()
 {
     /*
         traverse through table and print every entry
