@@ -1,24 +1,21 @@
 %{
-    #include "sym_tab.h"
+    #include "sym_tab.c"
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
-    
+
     #define YYSTYPE char*
 
     void yyerror(char* s);
     int yylex();
+
     extern int yylineno;
-
-    int current_type;
-    int size; 
-    table* sym_table; 
-
+    int type;
 %}
 
-%token T_INT T_CHAR T_DOUBLE T_WHILE T_INC T_DEC T_OROR T_ANDAND T_EQCOMP 
-       T_NOTEQUAL T_GREATEREQ T_LESSEREQ T_LEFTSHIFT T_RIGHTSHIFT T_PRINTLN 
-       T_STRING T_FLOAT T_BOOLEAN T_IF T_ELSE T_STRLITERAL T_DO T_INCLUDE T_HEADER T_MAIN T_ID T_NUM
+%token T_INT T_CHAR T_DOUBLE T_WHILE T_INC T_DEC T_OROR T_ANDAND T_EQCOMP T_NOTEQUAL 
+       T_GREATEREQ T_LESSEREQ T_LEFTSHIFT T_RIGHTSHIFT T_PRINTLN T_STRING T_FLOAT 
+       T_BOOLEAN T_IF T_ELSE T_STRLITERAL T_DO T_INCLUDE T_HEADER T_MAIN T_ID T_NUM
 
 %start START
 
@@ -48,16 +45,21 @@ VAR: T_ID '=' EXPR
     | T_ID  
         { 
             if (!check_symbol_table($1)) {
-                insert_into_table($1, size, current_type, yylineno, 0);
+                int size = 1;
+                for (int i = 1; i < type; i++) {
+                    size *= 2;
+                }
+                symbol *s = init_symbol($1, size, type, yylineno, 0);
+                insert_into_table(s);
             } else {
-                yyerror("Redeclared variable");
+                yyerror("Redeclaration of variable");
             }
         }  
 
-TYPE : T_INT { current_type = INT; size = 4; }
-     | T_FLOAT { current_type = FLOAT; size = 2; }
-     | T_DOUBLE { current_type = DOUBLE; size = 8; }
-     | T_CHAR { current_type = CHAR; size = 1; }
+TYPE : T_INT { type = INT; }
+     | T_FLOAT { type = FLOAT; }
+     | T_DOUBLE { type = DOUBLE; }
+     | T_CHAR { type = CHAR; }
      ;
 	
 ASSGN : T_ID '=' EXPR  
@@ -121,11 +123,12 @@ COND : EXPR
 
 void yyerror(char* s) {
     printf("Error: %s at line %d\n", s, yylineno);
+    exit(1);
 }
 
 int main() {
-    sym_table = init_table();
+    init_table();
     yyparse();
-    display_symbol_table(sym_table);
+    display_symbol_table();
     return 0;
 }

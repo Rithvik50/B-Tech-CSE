@@ -4,13 +4,13 @@
 #include "sym_tab.h"
 
 table* init_table() {
-    table* t = (table*)malloc(sizeof(table));
+    t = (table*)malloc(sizeof(table));
     t->head = NULL;
     return t;
 }
 
 symbol* init_symbol(char* name, int size, int type, int lineno, int scope) {
-    symbol* s = (symbol*)malloc(sizeof(symbol));
+    symbol *s = (symbol*)malloc(sizeof(symbol));
     s->name = strdup(name);
     s->size = size;
     s->type = type;
@@ -21,56 +21,62 @@ symbol* init_symbol(char* name, int size, int type, int lineno, int scope) {
     return s;
 }
 
-void insert_into_table(char* name, int size, int type, int lineno, int scope) {
-    symbol* s = init_symbol(name, size, type, lineno, scope);
-    if (t->head == NULL) {
-        t->head = s;
+void insert_into_table(symbol* sym) {
+    symbol *s;
+	if (t->head == NULL) {
+		t->head = sym;
     } else {
-        symbol* temp = t->head;
-        while (temp->next != NULL) {
-            temp = temp->next;
+		s = t->head;
+		while (s->next != NULL) {
+            s = s->next;
         }
-        temp->next = s;
-    }
+		s->next = sym;
+	}
 }
 
 int check_symbol_table(char* name) {
-    symbol* temp = t->head;
-    while (temp != NULL) {
-        if (strcmp(temp->name, name) == 0) {
-            return 1;  // Symbol found
+    symbol *s = t->head;
+    while (s != NULL) {
+        if (strcmp(s->name, name) == 0) {
+            return 1;
         }
-        temp = temp->next;
+        s = s->next;
     }
-    return 0;  // Symbol not found
+    return 0;
 }
 
-void insert_value_to_name(char* name, char* value) {
-    symbol* temp = t->head;
-    while (temp != NULL) {
-        if (strcmp(temp->name, name) == 0) {
-            free(temp->val);
-            temp->val = strdup(value);
-            return;
-        }
-        temp = temp->next;
-    }
+void insert_value_to_name(char* name, char* value, int type) {
+    /*
+        if value is default value return back
+        check if table is empty
+        else traverse the table and find the name
+        insert value into the entry structure
+    */
 }
 
 void display_symbol_table() {
     if (t->head == NULL) {
         printf("Symbol table is empty\n");
-        return;
+        exit(0);
     }
 
     printf("----------------------------------------------------\n");
     printf("| %-10s | %-4s | %-6s | %-6s | %-5s |\n", "Name", "Size", "Type", "Line", "Scope");
     printf("----------------------------------------------------\n");
 
-    symbol* temp = t->head;
-    while (temp != NULL) {
-        printf("| %-10s | %-4d | %-6d | %-6d | %-5d |\n", temp->name, temp->size, temp->type, temp->line, temp->scope);
-        temp = temp->next;
+    symbol *s = t->head;
+    while (s != NULL) {
+        printf("| %-10s | %-4d | %-6d | %-6d | %-5d |\n", s->name, s->size, s->type, s->line, s->scope);
+        s = s->next;
     }
     printf("----------------------------------------------------\n");
+
+    symbol *s1, *s2 = NULL;
+	s1 = t->head;
+	while (s1->next != NULL) {
+		s2 = s1;
+		s1 = s1->next;
+		free(s2);
+	}
+	free(t);
 }
