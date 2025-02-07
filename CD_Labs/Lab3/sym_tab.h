@@ -21,10 +21,10 @@ typedef struct table		//keeps track of the start of the list
 
 static table* t;
 
-table* allocate_space_for_table();	//allocate space for start of table
+table* init_table();	//allocate space for start of table
 // thus making a new symbol table
 
-symbol* allocate_space_for_table_entry(char* name, int size, int type, int lineno, int scope);		
+symbol* init_symbol(char* name, int size, int type, int lineno, int scope);		
 //allocates space for items in the list and initialisation
 
 void insert_into_table(char* name, int size, int type, int lineno, int scope);	//arguments can vary based on implementation

@@ -49,6 +49,7 @@ void insert_into_table(char* name, int size, int type, int lineno, int scope)
         t -> head = s;
         return;
     }
+
     symbol* curr = t -> head;
     while (curr->next != NULL) {
         curr = curr -> next;
@@ -67,6 +68,7 @@ int check_symbol_table(char* name) //return a value like integer for checking
     if (t->head == NULL) {
         return 0;
     }
+
     symbol* curr = t->head;
     while (curr != NULL) {
         if (strcmp(curr->name, name) == 0) {
@@ -88,9 +90,11 @@ void insert_value_to_name(char* name, char* value, int type)
     if (strcmp(value, "~") == 0) {
         return;
     }
+
     if (t->head == NULL) {
         return;
     }
+
     symbol* curr = t->head;
     while (curr != NULL) {
         if (strcmp(curr->name, name) == 0) {
@@ -125,6 +129,7 @@ void display_symbol_table()
     if (curr == NULL) {
         return;
     }
+
     printf("Name\tsize\ttype\tlineno\tscope\tvalue\n");
     while (curr != NULL) {
         printf("%s\t%d\t%d\t%d\t%d\t%s\n", curr->name, curr->size, curr->type, curr->line, curr->scope, curr->val);
