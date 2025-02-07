@@ -130,9 +130,13 @@ void display_symbol_table()
         return;
     }
 
-    printf("Name\tsize\ttype\tlineno\tscope\tvalue\n");
+    printf("----------------------------------------------------\n");
+    printf("| %-10s | %-4s | %-6s | %-6s | %-5s |\n", "Name", "Size", "Type", "Line", "Scope");
+    printf("----------------------------------------------------\n");
+
     while (curr != NULL) {
-        printf("%s\t%d\t%d\t%d\t%d\t%s\n", curr->name, curr->size, curr->type, curr->line, curr->scope, curr->val);
+        printf("| %-10s | %-4d | %-6d | %-6d | %-5d |\n", curr->name, curr->size, curr->type, curr->line, curr->scope);
         curr = curr -> next;
     }
+    printf("----------------------------------------------------\n");
 }
