@@ -1,0 +1,4 @@
+lex lexer.l
+bison -dy parser.y
+gcc y.tab.c lex.yy.c
+./a.out<input.c>output.txt
