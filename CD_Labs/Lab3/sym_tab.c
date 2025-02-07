@@ -27,9 +27,9 @@ symbol* init_symbol(char* name, int size, int type, int lineno, int scope) //all
     strcpy(s->name, name);
     s -> size = size;
     s -> type = type;
+    s -> val = (char*)malloc(sizeof(char)*10);
     s -> line = lineno;
     s -> scope = scope;
-    s -> val = (char*)malloc(sizeof(char)*10);
     strcpy(s->val, "~");
     return s;
 }
@@ -77,7 +77,7 @@ int check_symbol_table(char* name) //return a value like integer for checking
     return 0;
 }
 
-void insert_value_to_name(char* name, char* value)
+void insert_value_to_name(char* name, char* value, int type) 
 {
     /*
         if value is default value return back
@@ -91,10 +91,24 @@ void insert_value_to_name(char* name, char* value)
     if (t->head == NULL) {
         return;
     }
-    symbol* curr = t -> head;
+    symbol* curr = t->head;
     while (curr != NULL) {
         if (strcmp(curr->name, name) == 0) {
-            strcpy(curr->val, value);
+            free(curr->val);
+            curr -> val = (char*)malloc(strlen(value) + 1);
+            switch (type) {
+                case CHAR:
+                    snprintf(curr->val, 2, "%c", value[0]); // Store a single character
+                    break;
+                case INT:
+                case FLOAT:
+                case DOUBLE:
+                    strcpy(curr->val, value); // Store numeric values as strings
+                    break;
+                default:
+                    strcpy(curr->val, value); // Default case
+                    break;
+            }
             return;
         }
         curr = curr -> next;
@@ -111,7 +125,7 @@ void display_symbol_table()
     if (curr == NULL) {
         return;
     }
-    print("Name\tsize\ttype\tlineno\tscope\tvalue\n");
+    printf("Name\tsize\ttype\tlineno\tscope\tvalue\n");
     while (curr != NULL) {
         printf("%s\t%d\t%d\t%d\t%d\t%s\n", curr->name, curr->size, curr->type, curr->line, curr->scope, curr->val);
         curr = curr -> next;
