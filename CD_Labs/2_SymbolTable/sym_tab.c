@@ -81,12 +81,12 @@ void display_symbol_table() {
     }
 
     printf("----------------------------------------------------------\n");
-    printf("| %-10s | %-4s | %-6s | %-6s | %-5s | %-6s |\n", "Name", "Size", "Type", "Line", "Scope", "Value");
+    printf("| %-10s | %-4s | %-6s | %-6s | %-5s | %-10s |\n", "Name", "Size", "Type", "Line", "Scope", "Value");
     printf("----------------------------------------------------------\n");
 
     symbol *s = t->head;
     while (s != NULL) {
-        printf("| %-10s | %-4d | %-6d | %-6d | %-5d | %-6s |\n", s->name, s->size, s->type, s->line, s->scope, s->val);
+        printf("| %-10s | %-4d | %-6d | %-6d | %-5d | %-10s |\n", s->name, s->size, s->type, s->line, s->scope, s->val);
         s = s->next;
     }
     printf("----------------------------------------------------------\n");

@@ -70,6 +70,10 @@ ASSGN : T_ID '=' EXPR
                 symbol *s = t->head;
                 while (s != NULL) {
                     if (strcmp(s->name, $1) == 0) {
+                        if (s->type != type) {
+                            printf("Mismatch type\n");
+                            yyerror($3);
+                        }
                         insert_value_to_name($1, $3, s->type);
                         break;
                     }
