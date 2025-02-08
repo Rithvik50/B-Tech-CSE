@@ -39,7 +39,7 @@ LISTVAR : LISTVAR ',' VAR
 VAR: T_ID '=' EXPR  
         { 
             /*
-				to be done in lab 3
+				to be done in lab 4
 			*/
         }
     | T_ID  
@@ -65,7 +65,7 @@ TYPE : T_INT { type = INT; }
 ASSGN : T_ID '=' EXPR  
         { 
             /*
-				to be done in lab 3
+				to be done in lab 4
 			*/
         }
     ;

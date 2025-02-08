@@ -10,7 +10,10 @@ bison -dy parser.y || { echo "Yacc failed"; exit 1; }
 gcc y.tab.c lex.yy.c || { echo "GCC compilation failed"; exit 1; }
 
 # Step 4: Execute the program with input redirection
-./a.out < sample_input1.c > output1.txt || { echo "Execution failed"; exit 1; }
+./a.out < sample_input.c > output.txt || { echo "Execution failed"; exit 1; }
 
 # Step 5: Print success message
 echo "Execution completed successfully. Output stored in output1.txt"
+
+# Step 6: Clean up
+rm -f y.tab.c y.tab.h lex.yy.c a.out
