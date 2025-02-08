@@ -62,6 +62,6 @@ number	{digits}{opFraction}{opExponent}
 .		{} // anything else => ignore
 %%
 
-int yywrap(){
+int yywrap() {
 	return 1;
 }

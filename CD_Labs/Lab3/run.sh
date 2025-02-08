@@ -6,7 +6,7 @@ lex lexer.l || { echo "Lex failed"; exit 1; }
 # Step 2: Run Yacc to generate parser code
 bison -dy parser.y || { echo "Yacc failed"; exit 1; }
 
-# Step 3: Compile the generated files with GCC, including sym_tab.c
+# Step 3: Compile the generated files with GCC
 gcc y.tab.c lex.yy.c || { echo "GCC compilation failed"; exit 1; }
 
 # Step 4: Execute the program with input redirection
