@@ -11,6 +11,7 @@
 
     extern int yylineno;
     int type;
+    int scope = 1;
 %}
 
 %token T_INT T_CHAR T_DOUBLE T_WHILE T_INC T_DEC T_OROR T_ANDAND T_EQCOMP T_NOTEQUAL 
@@ -38,23 +39,24 @@ LISTVAR : LISTVAR ',' VAR
 
 VAR: T_ID '=' EXPR  
         { 
-            /*
-				to be done in lab 4
-			*/
+            if (!check_symbol_table($1)) {
+                symbol *s = init_symbol($1, get_size(type), type, yylineno, scope);
+                insert_into_table(s);
+                insert_value_to_name($1, $3, type);
+            } else {
+                yyerror($1);
+            }
         }
     | T_ID  
         { 
             if (!check_symbol_table($1)) {
-                int size = 1;
-                for (int i = 1; i < type; i++) {
-                    size *= 2;
-                }
-                symbol *s = init_symbol($1, size, type, yylineno, 0);
+                symbol *s = init_symbol($1, get_size(type), type, yylineno, scope);
                 insert_into_table(s);
             } else {
-                yyerror("Redeclaration of variable");
+                printf("Variable %s already declared\n", $1);
+                yyerror($1);
             }
-        }  
+        }   
 
 TYPE : T_INT { type = INT; }
      | T_FLOAT { type = FLOAT; }
@@ -64,9 +66,18 @@ TYPE : T_INT { type = INT; }
 	
 ASSGN : T_ID '=' EXPR  
         { 
-            /*
-				to be done in lab 4
-			*/
+            if (check_symbol_table($1)) {
+                symbol *s = t->head;
+                while (s != NULL) {
+                    if (strcmp(s->name, $1) == 0) {
+                        insert_value_to_name($1, $3, s->type);
+                        break;
+                    }
+                    s = s->next;
+                }
+            } else {
+                yyerror("Variable not declared before use");
+            }
         }
     ;
 
@@ -113,17 +124,19 @@ STMT_NO_BLOCK : DECLR ';'
        | ASSGN ';' 
        ;
 
-BLOCK : '{' STMT '}';
+BLOCK : '{' 
+         { scope++; } 
+       STMT 
+       '}' 
+         { scope--; };
 
 COND : EXPR 
        | ASSGN
        ;
-
 %%
 
 void yyerror(char* s) {
     printf("Error: %s at line %d\n", s, yylineno);
-    exit(1);
 }
 
 int main() {
