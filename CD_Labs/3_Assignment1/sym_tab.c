@@ -133,9 +133,9 @@ int get_type(const char *val) {
 
 // Display the symbol table
 void display_symbol_table() {
-    printf("-----------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------\n");
     printf("| %-10s | %-4s | %-6s | %-6s | %-5s | %-10s |\n", "Name", "Size", "Type", "Line", "Scope", "Value");
-    printf("-----------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------\n");
     
     symbol *cur = t->head;
     while (cur) {
@@ -143,5 +143,5 @@ void display_symbol_table() {
                cur->name, cur->size, cur->type, cur->line, cur->scope, cur->val);
         cur = cur->next;
     }
-    printf("-----------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------\n");
 }
