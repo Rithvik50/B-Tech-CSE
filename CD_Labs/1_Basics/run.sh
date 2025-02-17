@@ -13,7 +13,7 @@ gcc y.tab.c lex.yy.c || { echo "GCC compilation failed"; exit 1; }
 rm -f y.tab.c y.tab.h lex.yy.c
 
 # Step 5: Execute the program with input redirection
-./a.out < input_file.c || { echo "Execution failed"; exit 1; }
+./a.out < input_file.c > output.txt || { echo "Execution failed"; exit 1; }
 
 # Step 6: Remove a.out
 rm -f a.out
