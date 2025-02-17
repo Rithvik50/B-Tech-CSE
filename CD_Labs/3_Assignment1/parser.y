@@ -1,28 +1,31 @@
 %{
     #define YYSTYPE char*
+
     #include "sym_tab.c"
     #include "y.tab.h"
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
     #include <ctype.h>
-    int scope=0;
-    int type=-1;
-    char* vval="~";
+
+    int scope = 0;
+    int type = -1;
+    char *vval = "~";
     int vtype = -1;  
     int condition_result = 0;  
     double expr1_val = 0.0;    
     double expr2_val = 0.0;
     int skip_execution = 0;
-    void yyerror(char* s);
+
+    void yyerror(char *s);
     int yylex();
     extern int yylineno;
     symbol *global_p = NULL; 
 %}
 
-%token T_INT T_CHAR T_DOUBLE T_WHILE T_INC T_DEC T_OROR T_ANDAND T_EQCOMP T_NOTEQUAL T_GREATEREQ T_LESSEREQ T_LEFTSHIFT T_RIGHTSHIFT T_PRINTLN T_STRING T_FLOAT T_BOOLEAN T_IF T_ELSE T_STRLITERAL T_DO T_INCLUDE T_HEADER T_MAIN T_ID T_NUM T_FOR
-
-
+%token T_INT T_CHAR T_DOUBLE T_WHILE T_INC T_DEC T_OROR T_ANDAND T_EQCOMP T_NOTEQUAL 
+%token T_GREATEREQ T_LESSEREQ T_LEFTSHIFT T_RIGHTSHIFT T_PRINTLN T_STRING T_FLOAT T_BOOLEAN 
+%token T_IF T_ELSE T_STRLITERAL T_DO T_INCLUDE T_HEADER T_MAIN T_ID T_NUM T_FOR
 
 %start START
 
@@ -99,10 +102,10 @@ ARRAY_LIST : ARRAY_LIST ',' EXPR
            | EXPR
            ;
 
-TYPE : T_INT {type=INT;}
-     | T_FLOAT {type=FLOAT;}
-     | T_DOUBLE {type=DOUBLE;}
-     | T_CHAR {type=CHAR;}
+TYPE : T_INT {type = INT;}
+     | T_FLOAT {type = FLOAT;}
+     | T_DOUBLE {type = DOUBLE;}
+     | T_CHAR {type = CHAR;}
      ;
 
 ASSGN : T_ID { 
@@ -203,7 +206,7 @@ E : E '+' T {
   ;
     
 T : T '*' F { 
-                 if (vtype == INT) {
+                if (vtype == INT) {
                     sprintf( $$, "%d", (atoi($1) * atoi($3)));
                 } else if (vtype == FLOAT || vtype == DOUBLE) {
                     sprintf($$, "%lf", (atof($1) * atof($3)));
@@ -230,7 +233,7 @@ T : T '*' F {
 F : '(' EXPR ')'
   | T_ID {
             symbol *s = get_symbol($1, scope);
-            if(s == NULL) {
+            if (s == NULL) {
                 fprintf(stderr, "%s is not declared\n", $1);
                 yyerror($1);
             }
@@ -327,7 +330,7 @@ INCREMENT : T_INC T_ID {
                 char new_value[32];
                 if (s->type == INT) {
                     int val = atoi(s->val) + 1;
-                    sprintf(new_value,"%d",val);
+                    sprintf(new_value, "%d", val);
                 } else if (s->type == FLOAT || s->type == DOUBLE) {
                     double val = atof(s->val) + 1.0;
                     sprintf(new_value, "%lf", val);
@@ -336,7 +339,7 @@ INCREMENT : T_INC T_ID {
                 vtype = s->type;
             }
   | T_ID T_DEC {
-                symbol *s = get_symbol($1,scope);
+                symbol *s = get_symbol($1, scope);
                 if (s == NULL) {
                     fprintf(stderr, "%s is not declared\n", $1);
                     yyerror($1);

@@ -5,7 +5,7 @@
 
 // Allocate memory for a symbol table
 table* allocate_space_for_table() {
-    table *t = (table *)malloc(sizeof(table));
+    table *t = (table*)malloc(sizeof(table));
     if (t) {
         t->head = NULL;
     }
@@ -22,7 +22,7 @@ symbol* allocate_space_for_table_entry(const char *name, int type, int lineno, i
         s->type = type;
         s->line = lineno;
         s->scope = scope;
-        s->val = (char *)malloc(32);
+        s->val = (char*)malloc(32);
         strcpy(s->val, "~");
         s->next = NULL;
     }
@@ -40,31 +40,31 @@ int insert_into_table(const char *name, int type, int lineno, int scope) {
     if (!t->head) {
         t->head = s;
     } else {
-        symbol *cur = t->head;
-        while (cur) {
-            if (!strcmp(cur->name, name) && cur->scope == scope) {
+        symbol *curr = t->head;
+        while (curr) {
+            if (!strcmp(curr->name, name) && curr->scope == scope) {
                 fprintf(stderr, "Error: %s cannot be redeclared in the same scope\n", name);
                 free(s->name);
                 free(s->val);
                 free(s);
                 return 1;
             }
-            if (!cur->next) break;
-            cur = cur->next;
+            if (!curr->next) break;
+            curr = curr->next;
         }
-        cur->next = s;
+        curr->next = s;
     }
     return 0;
 }
 
 // Check if a symbol exists in the table
 symbol* check_symbol_table(const char *name, int scope) {
-    symbol *cur = t->head;
-    while (cur) {
-        if (!strcmp(cur->name, name) && cur->scope == scope) {
-            return cur;
+    symbol *curr = t->head;
+    while (curr) {
+        if (!strcmp(curr->name, name) && curr->scope == scope) {
+            return curr;
         }
-        cur = cur->next;
+        curr = curr->next;
     }
     return NULL;
 }
@@ -73,17 +73,17 @@ symbol* check_symbol_table(const char *name, int scope) {
 int insert_value_to_name(const char *name, const char *val, int scope) {
     if (!strcmp(val, "~")) return 1;
 
-    symbol *cur = t->head, *prev_scope = NULL;
-    while (cur) {
-        if (!strcmp(cur->name, name)) {
-            if (cur->scope == scope) {
-                strncpy(cur->val, val, 32);
+    symbol *curr = t->head, *prev_scope = NULL;
+    while (curr) {
+        if (!strcmp(curr->name, name)) {
+            if (curr->scope == scope) {
+                strncpy(curr->val, val, 32);
                 return 0;
-            } else if (cur->scope < scope) {
-                prev_scope = cur;
+            } else if (curr->scope < scope) {
+                prev_scope = curr;
             }
         }
-        cur = cur->next;
+        curr = curr->next;
     }
 
     if (prev_scope) {
@@ -96,13 +96,13 @@ int insert_value_to_name(const char *name, const char *val, int scope) {
 
 // Retrieve a symbol from the table
 symbol* get_symbol(const char *name, int scope) {
-    symbol *cur = t->head, *prev_scope = NULL;
-    while (cur) {
-        if (!strcmp(cur->name, name)) {
-            if (cur->scope == scope) return cur;
-            else if (cur->scope < scope) prev_scope = cur;
+    symbol *curr = t->head, *prev_scope = NULL;
+    while (curr) {
+        if (!strcmp(curr->name, name)) {
+            if (curr->scope == scope) return curr;
+            else if (curr->scope < scope) prev_scope = curr;
         }
-        cur = cur->next;
+        curr = curr->next;
     }
     if (!prev_scope) fprintf(stderr, "Error: %s has not been declared\n", name);
     return prev_scope;
@@ -137,11 +137,11 @@ void display_symbol_table() {
     printf("| %-10s | %-4s | %-6s | %-6s | %-5s | %-10s |\n", "Name", "Size", "Type", "Line", "Scope", "Value");
     printf("-------------------------------------------------------------\n");
     
-    symbol *cur = t->head;
-    while (cur) {
+    symbol *curr = t->head;
+    while (curr) {
         printf("| %-10s | %-4d | %-6d | %-6d | %-5d | %-10s |\n", 
-               cur->name, cur->size, cur->type, cur->line, cur->scope, cur->val);
-        cur = cur->next;
+               curr->name, curr->size, curr->type, curr->line, curr->scope, curr->val);
+        curr = curr->next;
     }
     printf("-------------------------------------------------------------\n");
 }

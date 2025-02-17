@@ -26,7 +26,6 @@ number          {digits}{opFraction}{opExponent}
 <comment>"*/"       { BEGIN(INITIAL); }
 <comment><<EOF>>    { printf("Unclosed comment\n"); exit(1);}
 
-
 [\t\n] ;        // ignore whitespaces
 "int"           { return T_INT; }
 "char"          { return T_CHAR; }
@@ -41,7 +40,7 @@ number          {digits}{opFraction}{opExponent}
 "--"           { return T_DEC; }
 ^\#include[^\n]*      ; 
 "main"          { return T_MAIN; }
-\".*\"          { yylval=strdup(yytext); return T_STRLITERAL; }
+\".*\"          { yylval = strdup(yytext); return T_STRLITERAL; }
 "=="            { return T_EQCOMP; }
 "!="            { return T_NOTEQUAL; }
 ">="            { return T_GREATEREQ; }
@@ -63,13 +62,13 @@ number          {digits}{opFraction}{opExponent}
 "["             { return *yytext; }
 "]"             { return *yytext; }
 {number}        {
-                    yylval=strdup(yytext);  // stores the value of the number to be
+                    yylval = strdup(yytext);  // stores the value of the number to be
                                             // used later for symbol table insertion
                     return T_NUM;
                 }
 {id}\.h         { return T_HEADER; }        // ending in .h => header file name
 {id}            {
-                    yylval=strdup(yytext);  // stores the identifier to be used later
+                    yylval = strdup(yytext);  // stores the identifier to be used later
                                             // for symbol table insertion
                     return T_ID;
                 }
