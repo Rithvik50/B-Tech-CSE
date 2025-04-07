@@ -29,53 +29,41 @@ START : ASSGN	{
 
 /* Grammar for assignment */
 ASSGN : T_ID '=' E	{
-						$$ = strdup($1);
-						char* op = strdup("=");
-						char* op1 = strdup("");	
+						quad_code_gen($1, $3, "=", "");
 					}
 	;
 
 /* Expression Grammar */
 E : E '+' T 	{	
-					$$ = new_temp();
-					char* op = strdup("+");
-					char* op1 = strdup("");
-					quad_code_gen($1, op, $$, op1);
+					char* temp = new_temp();
+                    quad_code_gen(temp, $1, "+", $3);
+                    $$ = temp;
 				}
 	| E '-' T 	{
-					$$ = new_temp();
-					char* op = strdup("-");
-					char* op1 = strdup("");
-					quad_code_gen($1, op, $$, op1);
+					char* temp = new_temp();
+                    quad_code_gen(temp, $1, "-", $3);
+                    $$ = temp;
 				}
-	| T
+	| T			{	$$ = $1;	}
 	;
 	
 	
 T : T '*' F 	{
-					$$ = new_temp();
-					char* op = strdup("*");
-					char* op1 = strdup("");
-					quad_code_gen($1, op, $$, op1);
+					char* temp = new_temp();
+                    quad_code_gen(temp, $1, "*", $3);
+                    $$ = temp;
 				}
-	| T '/' F 	{	//create a new temporary and call quad_code_gen with appropriate parameters	
-					$$ = new_temp();
-					char* op = strdup("/");
-					char* op1 = strdup("");
-					quad_code_gen($1, op, $$, op1);
+	| T '/' F 	{
+					char* temp = new_temp();
+                    quad_code_gen(temp, $1, "/", $3);
+                    $$ = temp;
 				}
-	| F
+	| F			{	$$ = $1;	}
 	;
 
-F : '(' E ')' 	{	//assign the value of node E to node F	
-
-				}
-	| T_ID 		{	//assign a copy of t_ID of node F	
-
-				}
-	| T_NUM 	{	//assign a copy of t_ID of node F	
-
-				}
+F : '(' E ')' 	{	$$ = $2;	}
+	| T_ID 		{	$$ = $1;	}
+	| T_NUM 	{	$$ = $1;	}
 	;
 
 %%
