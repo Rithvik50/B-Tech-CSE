@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f7fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+        }
+
+        .card-body h2 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        table {
+            background-color: white;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>Admin Panel</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <h2>Add Item to Inventory</h2>
+                <form method="post" action="{{ url_for('admin') }}" class="needs-validation" novalidate>
+                    <input type="hidden" name="action" value="add_item">
+                    <div class="form-group">
+                        <label for="product_name">Product Name:</label>
+                        <input type="text" class="form-control" id="product_name" name="product_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" class="form-control" id="quantity" name="quantity" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="unit_price">Unit Price:</label>
+                        <input type="number" class="form-control" step="0.01" id="unit_price" name="unit_price"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location:</label>
+                        <input type="text" class="form-control" id="location" name="location" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Item</button>
+                </form>
+            </div>
+        </div>
+
+        
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <h2>Inventory</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in inventory %}
+                        <tr>
+                            <td>{{ item['product_id'] }}</td>
+                            <td>{{ item['product_name'] }}</td>
+                            <td>{{ item['quantity'] }}</td>
+                            <td>{{ item['unit_price'] }}</td>
+                            <td>{{ item['location'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <form action="{{ url_for('add_stock') }}" method="post" class="mt-2">
+            <button type="submit" class="btn btn-primary btn-add-stock">Add Stock</button>
+        </form>
+
+        <div class="card mt-4 mb-5">
+            <div class="card-body">
+                <h2>Orders</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>User ID</th>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>{{ order['order_id'] }}</td>
+                        <td>{{order['userid']}}</td>
+                        <td>{{ order['productname'] }}</td>
+                        <td>{{ order['quantity'] }}</td>
+                        <td>{{ order['price'] }}</td>
+                        <td>{{ order['stats'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card mt-4 mb-5">
+        <div class="card-body">
+        <form method="post" action="{{ url_for('update_status') }}" class="needs-validation" novalidate>
+            <!-- Order ID input -->
+            <div class="form-group">
+                <label for="order_id">Order ID:</label>
+                <input type="text" class="form-control" id="order_id" name="order_id" required>
+                <div class="invalid-feedback">
+                    Please enter a valid order ID.
+                </div>
+            </div>
+        
+            <!-- Status selection -->
+            <div class="form-group">
+                <label for="status">Order Status:</label>
+                <select class="form-control" id="status" name="status" required>
+                    <option value="">Select a status</option>
+                    <option value="shipped">Shipped</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select a status.
+                </div>
+            </div>
+        
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary">Process Order</button>
+        </form>
+        </div>
+        </div>
+        
+        <form method="post" action="{{ url_for('Delete_Product') }}" class="needs-validation" novalidate>
+            <!-- Order ID input -->
+            <div class="form-group">
+                <label for="product_id">product ID:</label>
+                <input type="text" class="form-control" id="product_id" name="product_id" required>
+                <div class="invalid-feedback">
+                    Please enter a valid product ID.
+                </div>
+            </div>
+        
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary">Delete</button>
+        </form>
+        </div>
+        </div>
+
+        <div class="card mt-4 mb-5">
+            <div class="card-body">
+                <form action="{{url_for('health_check')}}" method="get">
+                    <button type="submit" class="btn btn-primary">Health check </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

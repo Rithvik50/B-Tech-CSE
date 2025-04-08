@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  rabbitmqcontainer:
+    build: ./rabbitmq
+    image: rabbit  # ✅ Use official RabbitMQ image
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  database: 
+    build: ./database  # ✅ Use 'build' instead of 'image'
+    image: my-database  # Optional: Rename to avoid conflicts
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: mydatabase
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: password
+
+  producer:
+    build: ./producer
+    image: my-producer
+    ports:
+      - "5050:5050"
+    depends_on:
+      - rabbitmqcontainer
+      - database
+
+  consumer1:
+    build: ./consumer_one
+    image: my-consumer1
+    depends_on:
+      - rabbitmqcontainer
+      - database
+
+  consumer2:
+    build: ./consumer_two
+    image: my-consumer2
+    depends_on:
+      - rabbitmqcontainer
+      - database
+  
+  consumer3:
+    build: ./consumer_three
+    image: my-consumer3
+    depends_on:
+      - rabbitmqcontainer
+      - database
+
+  consumer4:
+    build: ./consumer_four
+    image: my-consumer4
+    depends_on:
+      - rabbitmqcontainer
+      - database
+
+networks:
+  my-network:
+    external: true

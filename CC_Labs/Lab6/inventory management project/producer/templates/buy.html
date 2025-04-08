@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Items</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1>Buy Items</h1>
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+        {% endif %}
+       <form method="post" action="{{ url_for('buy') }}">
+        <div id="item-fields">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Item:</label>
+                <div class="col-sm-3">
+                    <select class="form-control item-select" name="item_id[]">
+                        {% for item in inventory %}
+                        <option value="{{ item['product_id'] }}" data-price="{{ item['unit_price'] }}"
+                            data-name="{{ item['product_name'] }}">
+                            {{ item['product_name'] }} - ${{ item['unit_price'] }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="hidden" name="product_name[]" value="{{ inventory[0]['product_name'] }}">
+                <label class="col-sm-2 col-form-label">Quantity:</label>
+                <div class="col-sm-2">
+                    <input type="number" class="form-control quantity" name="quantity[]" min="1" value="1">
+                </div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-primary add-more">Add More</button>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Order</button>
+    </form>
+    <script>
+        $(document).ready(function () {
+            $('.add-more').click(function () {
+                var $clone = $('#item-fields .form-group:first').clone();
+                $clone.find('input.quantity').val('1');  // Reset quantity
+                $clone.appendTo('#item-fields');
+                // Update the hidden product name input value based on the selected option's data-name attribute
+                $clone.find('.item-select').change(function () {
+                    var selectedName = $(this).find('option:selected').data('name');
+                    $(this).next('input[name="product_name[]"]').val(selectedName);
+                });
+                $clone.find('.add-more').removeClass('btn-primary add-more').addClass('btn-danger remove').text('Remove');
+            });
+
+            // Initial set of the product name based on first selection
+            $('.item-select').change(function () {
+                var selectedName = $(this).find('option:selected').data('name');
+                $(this).next('input[name="product_name[]"]').val(selectedName);
+            });
+
+            $(document).on('click', '.remove', function () {
+                $(this).closest('.form-group').remove();
+            });
+        });
+    </script>
+
+</body>
+
+</html>
