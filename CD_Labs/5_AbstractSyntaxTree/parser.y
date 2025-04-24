@@ -59,9 +59,9 @@ T : T '*' F 	{
 	;
 
 F : '(' E ')' { $$ = $2; }
-	| T_ID 	{
-				$$ = init_exp_node(strdup($1), NULL, NULL);
-			}
+	| T_ID 		{
+					$$ = init_exp_node(strdup($1), NULL, NULL);
+				}
 	| T_NUM 	{
 					$$ = init_exp_node(strdup($1), NULL, NULL);
 				}
