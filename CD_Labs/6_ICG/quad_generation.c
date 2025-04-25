@@ -3,15 +3,24 @@
 #include <string.h>
 #include "quad_generation.h"
 
+
 void quad_code_gen(char* a, char* b, char* op, char* c)
-{
-	fprintf(icg_quad_file, "%s, %s, %s, %s\n", op, b, c, a);
+{	
+	printf("| %-10s | %-10s | %-10s | %-10s |\n",op,b,c,a);
 }
 
 char* new_temp()
 {
-	char* temp = (char*)malloc(sizeof(char)*4);
-	sprintf(temp, "t%d", temp_no);
-	++temp_no;
-	return temp;
+	char* tempNew = (char*)malloc(sizeof(char)*4);
+	sprintf(tempNew,"t%d",temp_no);	
+	temp_no++;
+	return tempNew;
+}
+
+char* new_label()
+{
+	char* label = (char*)malloc(sizeof(char)*4);
+	sprintf(label,"L%d",label_no);
+	label_no++;
+	return label;
 }
