@@ -31,6 +31,12 @@ number	{digits}{opFraction}{opExponent}
 "="         	{return *yytext;}
 ">"         	{return *yytext;}
 "<"         	{return *yytext;}
+"if"            {return IF;}
+"else"          {return ELSE;}
+"do"            {return DO;}
+"while"         {return WHILE;}
+"{"				{return *yytext;}
+"}"				{return *yytext;}
 {number}	{
 			yylval = strdup(yytext);  //stores the value of the number to be used later for symbol table insertion
 			return T_NUM;

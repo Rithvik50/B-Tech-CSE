@@ -19,6 +19,12 @@ number	{digits}{opFraction}{opExponent}
 %%
 \/\/(.*) ; // ignore comments
 [\t\n] ; // ignore whitespaces
+"<="         	{return LTEQ;}
+">="         	{return GTEQ;}
+"=="         	{return EQQ;}
+"!="         	{return NEQ;}
+"{" 		{return OC;}
+"}" 		{return CC;}
 "("		{return *yytext;}
 ")"		{return *yytext;}
 "."         	{return *yytext;}
@@ -29,19 +35,19 @@ number	{digits}{opFraction}{opExponent}
 "-"         	{return *yytext;}
 "/"         	{return *yytext;}
 "="         	{return *yytext;}
-">"         	{return *yytext;}
-"<"         	{return *yytext;}
+">"         	{return GT;}
+"<"         	{return LT;}
 {number}	{
 			yylval = strdup(yytext);  //stores the value of the number to be used later for symbol table insertion
 			return T_NUM;
 		}
+"if"		{return T_IF;}
+"else"		{return T_ELSE;}
+"do"		{return T_DO;}
+"while"		{return T_WHILE;}
 {id}        	{
 					yylval = strdup(yytext); //stores the identifier to be used later for symbol table insertion
 					return T_ID;
 				}
 .		{} // anything else => ignore
 %%
-
-int yywrap() {
-	return 1;
-}
